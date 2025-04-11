@@ -1,0 +1,28 @@
+services:
+  vault:
+    image: hashicorp/vault
+    command:
+      [ vault, server,  -dev, -dev-root-token-id, root , -dev-listen-address=0.0.0.0:8200 ]
+    environment:
+      - VAULT_ADDR=http://vault:8200
+    ports:
+          - "8200:8200" 
+  
+  jwks:
+    image: ghcr.io/murar8/local-jwks-server:latest
+    ports:
+      - "8080:8080"
+    healthcheck:
+      retries: 5
+
+  shell:
+    build:
+      context: ./shell
+    image: shell
+    environment:
+      - JWKS_ENDPOINT=http://jwks:8080/.well-known/jwks.json
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=root
+    depends_on:
+      jwks:
+        condition: service_healthy
