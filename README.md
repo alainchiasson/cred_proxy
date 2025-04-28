@@ -1,6 +1,6 @@
-# Vault integration env with Approle templates.
+# Vault integration env with a JWKS endpoint
 
-In this case, we are using the Approle entity metadata as the link to utilise a single policy for all AppRoles. This simplifies the creation of new Application that follow the same secrets storage policy. 
+In this case, we are using a JWKS enpoint simulator to validate rules, roles and authentication methods for Vault. This allows us to generate JWT tokens similar to other JWT systems ( eg: Gitlab, GitHub and Kubernetes.) and validate role definitions and vault policy templates. 
 
 # Startup 
 
@@ -27,6 +27,7 @@ If you ever need to re-run the vault setup, you should run the reset-vault.sh sc
 ## Notes:
 
 - The UI is accessible from localhost:8200
-- If you have vault setup, the scripts can be run from a local command shell as well. The Shell docker image, is just for convenience as everything is already setup.
-- The Docker image for Vault is the  official hashicorp image.
+- You can tests out things via the shell container, and exec into it :
+
+    docker compose exec shell /bin/bash
 
